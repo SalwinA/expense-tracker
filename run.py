@@ -50,6 +50,8 @@ def get_expense_data():
 
 data = get_expense_data()
 print(data)
+# dt = data[3:9]
+# print(dt)
 
 
 def update_worksheet(data1):
@@ -61,3 +63,17 @@ def update_worksheet(data1):
 
 
 update_worksheet(data)
+
+
+def get_expense_ls():
+    """get expense list."""
+    expenses = SHEET.worksheet('EXPENSE')
+    row = []
+    row = expenses.get_values()
+    row[3:9]
+    return row
+
+
+ex = get_expense_ls()
+print(ex)
+
