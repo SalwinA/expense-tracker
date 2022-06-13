@@ -20,9 +20,9 @@ def get_expense_data():
     year = input('Enter Year (Ex. 2022):')
     # validate_year_data(year)
     exp_ls.append(year)
-    month = input('Enter Month (Ex. 1 - 12):')
+    month = months_and_weeks_validation('Enter Month (Ex. 1 - 12):', 1, 12)
     exp_ls.append(month)
-    week_number = input('Enter Week Number (Ex. 1 - 4):')
+    week_number = months_and_weeks_validation('Enter Week Number (Ex. 1 - 4):', 1, 4)
     exp_ls.append(week_number)
     food_exp = input('Enter FOOD EXPENSES:')
     exp_ls.append(food_exp)
@@ -38,6 +38,20 @@ def get_expense_data():
     exp_ls.append(shopping)
     ls = [int(i) for i in exp_ls]
     return ls
+
+
+def months_and_weeks_validation(msg, min=None, max=None):
+    """Month and Weeks Entry validation"""
+    try:
+        number = int(input(msg))
+        if min and number < min:
+            raise ValueError("Input should be greater than " + str(min))
+        if max and number > max:
+            raise ValueError("Input should be less than " + str(max))
+        return number
+    except ValueError as e:
+        print(f'Invalid entry {e}. Please try again..')
+    return months_and_weeks_validation(msg, min, max)
 
 
 def update_worksheet(data1):
