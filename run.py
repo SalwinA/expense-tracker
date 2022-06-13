@@ -39,20 +39,6 @@ def get_expense_data():
     ls = [int(i) for i in exp_ls]
     return ls
 
-# def validate_year_data(values):
-#     """Year Input Validation"""
-#     try:
-#         if(len(values) != 4):
-#             raise ValueError('Please enter integer values.')
-#     except ValueError as e:
-#         print(f'Error{e}')
-
-
-data = get_expense_data()
-print(data)
-# dt = data[3:9]
-# print(dt)
-
 
 def update_worksheet(data1):
     """Update worksheets with data"""    
@@ -60,20 +46,19 @@ def update_worksheet(data1):
     worksheet_to_update = SHEET.worksheet('EXPENSE')
     worksheet_to_update.append_row(data1)
     print('worksheet updated successfully.\n')
+    return data1
 
 
-update_worksheet(data)
+def main():
+    """This will run all the functions"""
+    print()
+    print("Welcome to your Expense Tracker\n")
+    print("Which function would you like to do today:\n")
+    print(input("A : Enter expense data , B : View past entries, C : Exit\n"))
+    data = get_expense_data()
+    update_worksheet(data)
+    dt = data[3:9]
+    print(dt)
 
 
-def get_expense_ls():
-    """get expense list."""
-    expenses = SHEET.worksheet('EXPENSE')
-    row = []
-    row = expenses.get_values()
-    row[3:9]
-    return row
-
-
-ex = get_expense_ls()
-print(ex)
-
+main()
