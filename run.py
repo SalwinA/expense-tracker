@@ -17,8 +17,7 @@ SHEET = GSPREAD_CLIENT.open('expense_record')
 def get_expense_data():
     """This function gets the all the expenses data from the user."""
     exp_ls = []
-    year = input('Enter Year (Ex. 2022):')
-    # validate_year_data(year)
+    year = year_validation('Enter Year (Ex. 2022):', 2020, 2030)
     exp_ls.append(year)
     month = months_and_weeks_validation('Enter Month (Ex. 1 - 12):', 1, 12)
     exp_ls.append(month)
@@ -40,6 +39,20 @@ def get_expense_data():
     return ls
 
 
+def year_validation(msg, min=None, max=None):
+    """Years Entry validation"""
+    try:
+        number = int(input(msg))
+        if min and number < min:
+            raise ValueError("Year input range should be in the range of {2020 - 2030} ")
+        if max and number > max:
+            raise ValueError("Year input range should be in the range of {2020 - 2030} ")
+        return number
+    except ValueError as e:
+        print(f'Invalid entry.. {e}. Please try again..\n')
+    return year_validation(msg, min, max)
+
+
 def months_and_weeks_validation(msg, min=None, max=None):
     """Month and Weeks Entry validation"""
     try:
@@ -50,7 +63,7 @@ def months_and_weeks_validation(msg, min=None, max=None):
             raise ValueError("Input should be less than " + str(max))
         return number
     except ValueError as e:
-        print(f'Invalid entry {e}. Please try again..')
+        print(f'Invalid entry.. {e}. Please try again..\n')
     return months_and_weeks_validation(msg, min, max)
 
 
