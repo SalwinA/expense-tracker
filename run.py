@@ -110,16 +110,37 @@ def total_calculation(data):
     return sum_of_expenses
 
 
+def operation_selections(msg):
+    try:
+        selection = input(msg).upper()
+        if(selection == 'A'):
+            print("Please Enter the details of expenses & update it.")
+            data = get_expense_data()
+            total = total_calculation(data)
+            data.append(total)
+            update_worksheet(data)
+        elif(selection == 'B'):
+            print("B : View past entries")
+            entries = SHEET.worksheet('EXPENSE').get_all_records()
+            print(entries)
+        elif(selection == 'C'):
+            print("C : Exit")
+            exit()
+        else:
+            raise ValueError("Invalid selection..")
+            return selection
+    except ValueError as e:
+        print(f"{e} Please try again")
+    return operation_selections(msg)
+    
+
 def main():
     """This will run all the functions"""
     print()
     print("Welcome to your Expense Tracker\n")
-    print("Which function would you like to do today:\n")
-    print(input("A : Enter expense data & update, B : View past entries, C : Exit\n"))
-    data = get_expense_data()
-    total = total_calculation(data)
-    data.append(total)
-    update_worksheet(data)
+    print("Which operation would you like to do today:\n")
+    opt_sel = operation_selections("A : Enter expense data & update, B : View past entries, C : Exit\n")
+    print(opt_sel)
 
 
 main()
