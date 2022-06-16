@@ -19,21 +19,22 @@ def get_expense_data():
     exp_ls = []
     year = year_validation('Enter Year (Ex. 2022):', 2020, 2030, 4)
     exp_ls.append(year)
-    month = months_and_weeks_validation('Enter Month (Ex. 1 - 12):', 1, 12)
+    month = int_validation('Enter Month (Ex. 1 - 12):', 1, 12)
     exp_ls.append(month)
-    week_number = months_and_weeks_validation('Enter Week Number (Ex. 1 - 4):', 1, 4)
+    week_number = int_validation(
+        'Enter Week Number (Ex. 1 - 4):', 1, 4)
     exp_ls.append(week_number)
-    food_exp = expenses_validation('Enter FOOD EXPENSES:', 1, None)
+    food_exp = int_validation('Enter FOOD EXPENSES:', 0, None)
     exp_ls.append(food_exp)
-    car = expenses_validation('Enter CAR EXPENSES:', 0, None)
+    car = int_validation('Enter CAR EXPENSES:', 0, None)
     exp_ls.append(car)
-    chidlcare = expenses_validation('Enter CHILDCARE EXPENSES:', 0, None)
+    chidlcare = int_validation('Enter CHILDCARE EXPENSES:', 0, None)
     exp_ls.append(chidlcare)
-    utilities = expenses_validation('Enter UTILITIES EXPENSES:', 0, None)
+    utilities = int_validation('Enter UTILITIES EXPENSES:', 0, None)
     exp_ls.append(utilities)
-    mortgage = expenses_validation('Enter MORTGAGE EXPENSES:', 0, None)
+    mortgage = int_validation('Enter MORTGAGE EXPENSES:', 0, None)
     exp_ls.append(mortgage)
-    shopping = expenses_validation('Enter SHOPPING EXPENSES:', 0, None)
+    shopping = int_validation('Enter SHOPPING EXPENSES:', 0, None)
     exp_ls.append(shopping)
     return exp_ls
 
@@ -42,60 +43,41 @@ def year_validation(msg, min=None, max=None, no_of_digits=None):
     """Years Entry validation"""
     try:
         number = int(input(msg))
-        if no_of_digits:
+        if no_of_digits is not None:
             if len(str(number)) != no_of_digits:
-                raise ValueError('Please enter values in 4 digits like 2020....')
-        if min and number < min:
-            raise ValueError("Year input range should be in the range of {2020 - 2030} ")
-        if max and number > max:
-            raise ValueError("Year input range should be in the range of {2020 - 2030} ")
+                raise ValueError(
+                    "Please enter values in 4 digits like 2020...."
+                    )
+        if min is not None and number < min:
+            raise ValueError(
+                "Year input range should be in the range of {2020 - 2030} "
+                )
+        if max is not None and number > max:
+            raise ValueError(
+                "Year input range should be in the range of {2020 - 2030} "
+                )
         return number
-    except ValueError as e:
-        print(f'Invalid entry.. {e}. Please try again..\n')
+    except ValueError as error_msg:
+        print(f'Invalid entry.. {error_msg}. Please try again..\n')
     return year_validation(msg, min, max)
 
 
-def months_and_weeks_validation(msg, min=None, max=None):
-    """Month and Weeks Entry validation"""
+def int_validation(msg, min=None, max=None):
+    """Integer validation"""
     try:
         number = int(input(msg))
-        if min and number < min:
+        if min is not None and number < min:
             raise ValueError("Input should be greater than " + str(min))
-        if max and number > max:
+        if max is not None and number > max:
             raise ValueError("Input should be less than " + str(max))
         return number
-    except ValueError as e:
-        print(f'Invalid entry.. {e}. Please try again..\n')
-    return months_and_weeks_validation(msg, min, max)
-
-
-def expenses_validation(msg, min=None, max=None):
-    """Month and Weeks Entry validation"""
-    try:
-        number = int(input(msg))
-        if min and number < min:
-            raise ValueError("Input should be greater than " + str(min))
-        if max and number > max:
-            raise ValueError("Input should be less than " + str(max))
-        return number
-    except ValueError as e:
-        print(f'Invalid entry.. {e}. Please try again..\n')
-    return expenses_validation(msg, min, max)
-
-# def expenses_validation(msg, min=None):
-#     """Month and Weeks Entry validation"""
-#     try:
-#         number = int(input(msg))
-#         if min and number < min:
-#             raise ValueError("Input should be greater than " + str(min))
-#         return number
-#     except ValueError as e:
-#         print(f'Invalid entry.. {e}. Please try again..\n')
-#     return expenses_validation(msg, min)
+    except ValueError as error_msg:
+        print(f'Invalid entry.. {error_msg}. Please try again..\n')
+    return int_validation(msg, min, max)
 
 
 def update_worksheet(data1):
-    """Update worksheets with data"""    
+    """Update worksheets with data"""
     print('Updating worksheet...\n')
     worksheet_to_update = SHEET.worksheet('EXPENSE')
     worksheet_to_update.append_row(data1)
@@ -105,8 +87,8 @@ def update_worksheet(data1):
 
 def total_calculation(data):
     """Calculating expenses total"""
-    dt = data[3:9]
-    sum_of_expenses = sum(dt)
+    exp_dt = data[3:9]
+    sum_of_expenses = sum(exp_dt)
     return sum_of_expenses
 
 
@@ -116,6 +98,7 @@ def operation_selections(msg):
         if(selection == 'A'):
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
+            get_data(data)
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
@@ -128,19 +111,38 @@ def operation_selections(msg):
             exit()
         else:
             raise ValueError("Invalid selection..")
-            return selection
-    except ValueError as e:
-        print(f"{e} Please try again")
-    return operation_selections(msg)
+            
+    except ValueError as err_msg:
+        print(f"{err_msg} Please try again")
+        operation_selections(msg)
+        return
     
+
+def get_data(data):
+    log = SHEET.worksheet('EXPENSE')
+    columns = []
+    for i in range(1, 4):
+        column = log.col_values(i)
+        columns.append(column[1:])
+    
+    ls = data[0:2]
+
+    if ls in columns:
+        print("data exists")
+    else:
+        print('continue')
+
+    return
+
 
 def main():
     """This will run all the functions"""
     print()
     print("Welcome to your Expense Tracker\n")
     print("Which operation would you like to do today:\n")
-    opt_sel = operation_selections("A : Enter expense data & update, B : View past entries, C : Exit\n")
-    print(opt_sel)
+    operation_selections(
+        "A : Enter expense data & update, B : View past entries, C : Exit\n"
+        )
 
 
 main()
