@@ -17,7 +17,7 @@ SHEET = GSPREAD_CLIENT.open('expense_record')
 def get_expense_data():
     """This function gets the all the expenses data from the user."""
     exp_ls = []
-    year = year_validation('Enter Year (Ex. 2022):\n', 2020, 2030, 4)
+    year = year_validation('Enter Year (Ex. 2022):\n', 2022, 2022, 4)
     exp_ls.append(year)
     month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
     exp_ls.append(month)
@@ -96,15 +96,14 @@ def operation_selections(msg):
     try:
         selection = input(msg).upper()
         if(selection == 'A'):
+            budget_list = budget_page()
+            budget_page_update(budget_list)
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
-            print(data)
             get_data()
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
-            budget_list = budget_page(data)
-            budget_page_update(budget_list)
         elif(selection == 'B'):
             print("B : View past entries")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
@@ -126,7 +125,7 @@ def get_data():
     year = []
     # month = []
     # week =[]
-    for i in range(1, 2):
+    for i in range(1, 4):
         val1 = log.col_values(i)
         year.append(val1[1:])
     # print(year)
@@ -135,12 +134,17 @@ def get_data():
         for it in int:
             fin_year.append(it)
     print(fin_year)
+      
 
-
-def budget_page(data):
+def budget_page():
     """Gets data for the Budget worksheet."""
-    yr_mnth = data[0:2]
-    budget = input("Please set a budget: ")
+    yr_mnth = []
+    print('Set a monthly budget amount for yourself.')
+    year = year_validation('Enter Year (Ex. 2022):\n', 2022, 2022, 4)
+    yr_mnth.append(year)
+    month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
+    yr_mnth.append(month)
+    budget = input("Please set a budget amount:\n")
     yr_mnth.append(budget)
     return yr_mnth
 
@@ -160,7 +164,8 @@ def main():
     print("Welcome to your Expense Tracker\n")
     print("Which operation would you like to do today:\n")
     operation_selections(
-        "A : Enter expense data & update, B : View past entries, C : Exit\n"
+        "A : Set a budget,Enter expense data & update it ta a google sheet.\n"
+        +"B : View past entries\n"+"C : Exit\n"
         )
 
 
