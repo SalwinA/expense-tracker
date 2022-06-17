@@ -46,15 +46,15 @@ def year_validation(msg, min=None, max=None, no_of_digits=None):
         if no_of_digits is not None:
             if len(str(number)) != no_of_digits:
                 raise ValueError(
-                    "Please enter values in 4 digits like 2020...."
+                    "Please enter values in 4 digits like 2022...."
                     )
         if min is not None and number < min:
             raise ValueError(
-                "Year input range should be in the range of {2020 - 2030} "
+                "Year input range should be 2022 "
                 )
         if max is not None and number > max:
             raise ValueError(
-                "Year input range should be in the range of {2020 - 2030} "
+                "Year input range should be 2022 "
                 )
         return number
     except ValueError as error_msg:
@@ -96,6 +96,7 @@ def operation_selections(msg):
     try:
         selection = input(msg).upper()
         if(selection == 'A'):
+            expense_budget_difference()
             budget_list = budget_page()
             budget_page_update(budget_list)
             print("Please Enter the details of expenses & update it.")
@@ -107,7 +108,10 @@ def operation_selections(msg):
         elif(selection == 'B'):
             print("B : View past entries")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
-            print(entries)
+            entry = []
+            for i in entries:
+                entry.append(i)
+            print(entry)
         elif(selection == 'C'):
             print("C : Exit")
             exit()
@@ -118,7 +122,7 @@ def operation_selections(msg):
         print(f"{err_msg} Please try again")
         operation_selections(msg)
         return
-    
+
 
 def get_data():
     log = SHEET.worksheet('EXPENSE')
@@ -133,7 +137,7 @@ def get_data():
     for int in year:
         for it in int:
             fin_year.append(it)
-    print(fin_year)
+    # print(fin_year)
       
 
 def budget_page():
@@ -158,14 +162,30 @@ def budget_page_update(data):
     return data
 
 
+def expense_budget_difference():
+    """Expenses & Budget difference"""
+    # bdgt = SHEET.worksheet('BUDGET')
+    exp = SHEET.worksheet('EXPENSE')
+    # budget_amount = bdgt.row_values(-1)
+    # exp_total = exp.row_values(-1)
+    # difference = budget_amount - exp_total
+    print(exp)
+    return exp
+
+
 def main():
     """This will run all the functions"""
-    print()
+    print("""
+█████████████████████████████████████████████████████████████████████████████████████████
+█▄─▄▄─█▄─▀─▄█▄─▄▄─█▄─▄▄─█▄─▀█▄─▄█─▄▄▄▄█▄─▄▄─███─▄─▄─█▄─▄▄▀██▀▄─██─▄▄▄─█▄─█─▄█▄─▄▄─█▄─▄▄▀█
+██─▄█▀██▀─▀███─▄▄▄██─▄█▀██─█▄▀─██▄▄▄▄─██─▄█▀█████─████─▄─▄██─▀─██─███▀██─▄▀███─▄█▀██─▄─▄█
+▀▄▄▄▄▄▀▄▄█▄▄▀▄▄▄▀▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▀▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀    
+    """)
     print("Welcome to your Expense Tracker\n")
     print("Which operation would you like to do today:\n")
     operation_selections(
-        "A : Set a budget,Enter expense data & update it ta a google sheet.\n"
-        +"B : View past entries\n"+"C : Exit\n"
+        "A : Set a budget,Enter expense data & update it to a google sheet.\n"
+        + "B : View past entries\n"+"C : Exit\n"
         )
 
 
