@@ -92,28 +92,47 @@ def total_calculation(data):
     return sum_of_expenses
 
 
+def program_continue(msg):
+    try:
+        answer = input(msg).upper()
+        if(answer == 'Y'):
+            main()
+        elif(answer == 'N'):
+            exit()
+        else:
+            raise ValueError("Invalid selection..")
+            
+    except ValueError as err_msg:
+        print(f"{err_msg} Please try again")
+        program_continue(msg)
+        return
+
+
 def operation_selections(msg):
     try:
         selection = input(msg).upper()
         if(selection == 'A'):
-            expense_budget_difference()
             budget_list = budget_page()
             budget_page_update(budget_list)
+            
+        elif(selection == 'B'):
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
             get_data()
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
-        elif(selection == 'B'):
-            print("B : View past entries")
+            
+        elif(selection == 'C'):
+            print("C : View past entries")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
             entry = []
             for i in entries:
                 entry.append(i)
             print(entry)
-        elif(selection == 'C'):
-            print("C : Exit")
+            
+        elif(selection == 'D'):
+            print("D : Exit")
             exit()
         else:
             raise ValueError("Invalid selection..")
@@ -144,7 +163,7 @@ def budget_page():
     """Gets data for the Budget worksheet."""
     yr_mnth = []
     print('Set a monthly budget amount for yourself.')
-    year = year_validation('Enter Year (Ex. 2022):\n', 2022, 2022, 4)
+    year = year_validation('Enter Current Year (Ex. 2022):\n', 2022, 2022, 4)
     yr_mnth.append(year)
     month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
     yr_mnth.append(month)
@@ -184,9 +203,11 @@ def main():
     print("Welcome to your Expense Tracker\n")
     print("Which operation would you like to do today:\n")
     operation_selections(
-        "A : Set a budget,Enter expense data & update it to a google sheet.\n"
-        + "B : View past entries\n"+"C : Exit\n"
+        "A : Set Monthly Budget and update it to Google Sheet.\n" + 
+        "B : Enter expense data & update it to a google sheet.\n"
+        + "C : View past entries\n" + "D : Exit\n"
         )
+    program_continue("Do you wish to continue. Answer (Y / N)- ")
 
 
 main()
