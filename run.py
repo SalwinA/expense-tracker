@@ -17,7 +17,7 @@ SHEET = GSPREAD_CLIENT.open('expense_record')
 def get_expense_data():
     """This function gets the all the expenses data from the user."""
     exp_ls = []
-    year = year_validation('Enter Year (Ex. 2022):\n', 2022, 2022, 4)
+    year = validate_year_data('Enter Year (Ex. 2022):\n', 2022, 2022, 4)
     exp_ls.append(year)
     month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
     exp_ls.append(month)
@@ -36,10 +36,10 @@ def get_expense_data():
     exp_ls.append(mortgage)
     shopping = int_validation('Enter SHOPPING EXPENSES:\n', 0, None)
     exp_ls.append(shopping)
-    return exp_ls 
+    return exp_ls
 
 
-def year_validation(msg, min=None, max=None, no_of_digits=None):
+def validate_year_data(msg, _min=None, _max=None, no_of_digits=None):
     """Years Entry validation"""
     try:
         number = int(input(msg))
@@ -48,32 +48,32 @@ def year_validation(msg, min=None, max=None, no_of_digits=None):
                 raise ValueError(
                     "Please enter values in 4 digits like 2022...."
                     )
-        if min is not None and number < min:
+        if _min is not None and number < _min:
             raise ValueError(
                 "Year input range should be 2022 "
                 )
-        if max is not None and number > max:
+        if _max is not None and number > _max:
             raise ValueError(
                 "Year input range should be 2022 "
                 )
         return number
     except ValueError as error_msg:
         print(f'Invalid entry.. {error_msg}. Please try again..\n')
-    return year_validation(msg, min, max)
+    return validate_year_data(msg, _min, _max)
 
 
-def int_validation(msg, min=None, max=None):
+def int_validation(msg, _min=None, _max=None):
     """Integer validation"""
     try:
         number = int(input(msg))
-        if min is not None and number < min:
+        if _min is not None and number < _min:
             raise ValueError("Input should be greater than " + str(min))
-        if max is not None and number > max:
+        if _max is not None and number > _max:
             raise ValueError("Input should be less than " + str(max))
         return number
     except ValueError as error_msg:
         print(f'Invalid entry.. {error_msg}. Please try again..\n')
-    return int_validation(msg, min, max)
+    return int_validation(msg, _min, _max)
 
 
 def update_worksheet(data1):
@@ -93,15 +93,15 @@ def total_calculation(data):
 
 
 def program_continue(msg):
+    """Program continue function after each operation"""
     try:
         answer = input(msg).upper()
-        if(answer == 'Y'):
+        if answer == 'Y':
             main()
-        elif(answer == 'N'):
+        elif answer == 'N':
             exit()
         else:
             raise ValueError("Invalid selection..")
-            
     except ValueError as err_msg:
         print(f"{err_msg} Please try again")
         program_continue(msg)
@@ -109,34 +109,31 @@ def program_continue(msg):
 
 
 def operation_selections(msg):
+    """Operation selection function"""
     try:
         selection = input(msg).upper()
-        if(selection == 'A'):
+        if selection == 'A':
             budget_list = budget_page()
             budget_page_update(budget_list)
-            
-        elif(selection == 'B'):
+        elif selection == 'B':
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
             get_data()
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
-            
-        elif(selection == 'C'):
+        elif selection == 'C':
             print("C : View past entries")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
             entry = []
             for i in entries:
                 entry.append(i)
             print(entry)
-            
-        elif(selection == 'D'):
+        elif selection == 'D':
             print("D : Exit")
             exit()
         else:
             raise ValueError("Invalid selection..")
-            
     except ValueError as err_msg:
         print(f"{err_msg} Please try again")
         operation_selections(msg)
@@ -144,6 +141,7 @@ def operation_selections(msg):
 
 
 def get_data():
+    """Get Data"""
     log = SHEET.worksheet('EXPENSE')
     year = []
     # month = []
@@ -153,17 +151,19 @@ def get_data():
         year.append(val1[1:])
     # print(year)
     fin_year = []
-    for int in year:
-        for it in int:
-            fin_year.append(it)
+    for itr in year:
+        for itn in itr:
+            fin_year.append(itn)
     # print(fin_year)
-      
+
 
 def budget_page():
     """Gets data for the Budget worksheet."""
     yr_mnth = []
     print('Set a monthly budget amount for yourself.')
-    year = year_validation('Enter Current Year (Ex. 2022):\n', 2022, 2022, 4)
+    year = validate_year_data(
+        'Enter Current Year (Ex. 2022):\n', 2022, 2022, 4
+        )
     yr_mnth.append(year)
     month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
     yr_mnth.append(month)
@@ -177,7 +177,7 @@ def budget_page_update(data):
     print("Updating Budget Page...")
     budget_worksheet_update = SHEET.worksheet('BUDGET')
     budget_worksheet_update.append_row(data)
-    print("Budget Update Successful")    
+    print("Budget Update Successful")
     return data
 
 
@@ -198,12 +198,12 @@ def main():
 █████████████████████████████████████████████████████████████████████████████████████████
 █▄─▄▄─█▄─▀─▄█▄─▄▄─█▄─▄▄─█▄─▀█▄─▄█─▄▄▄▄█▄─▄▄─███─▄─▄─█▄─▄▄▀██▀▄─██─▄▄▄─█▄─█─▄█▄─▄▄─█▄─▄▄▀█
 ██─▄█▀██▀─▀███─▄▄▄██─▄█▀██─█▄▀─██▄▄▄▄─██─▄█▀█████─████─▄─▄██─▀─██─███▀██─▄▀███─▄█▀██─▄─▄█
-▀▄▄▄▄▄▀▄▄█▄▄▀▄▄▄▀▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▀▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀    
+▀▄▄▄▄▄▀▄▄█▄▄▀▄▄▄▀▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▀▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀
     """)
     print("Welcome to your Expense Tracker\n")
     print("Which operation would you like to do today:\n")
     operation_selections(
-        "A : Set Monthly Budget and update it to Google Sheet.\n" + 
+        "A : Set Monthly Budget and update it to Google Sheet.\n" +
         "B : Enter expense data & update it to a google sheet.\n"
         + "C : View past entries\n" + "D : Exit\n"
         )
