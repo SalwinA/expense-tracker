@@ -36,7 +36,7 @@ def get_expense_data():
     exp_ls.append(mortgage)
     shopping = int_validation('Enter SHOPPING EXPENSES:', 0, None)
     exp_ls.append(shopping)
-    return exp_ls
+    return exp_ls 
 
 
 def year_validation(msg, min=None, max=None, no_of_digits=None):
@@ -98,10 +98,13 @@ def operation_selections(msg):
         if(selection == 'A'):
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
-            get_data(data)
+            print(data)
+            get_data()
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
+            budget_list = budget_page(data)
+            budget_page_update(budget_list)
         elif(selection == 'B'):
             print("B : View past entries")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
@@ -118,21 +121,37 @@ def operation_selections(msg):
         return
     
 
-def get_data(data):
+def get_data():
     log = SHEET.worksheet('EXPENSE')
-    columns = []
-    for i in range(1, 4):
-        column = log.col_values(i)
-        columns.append(column[1:])
-    
-    ls = data[0:2]
+    year = []
+    # month = []
+    # week =[]
+    for i in range(1, 2):
+        val1 = log.col_values(i)
+        year.append(val1[1:])
+    # print(year)
+    fin_year = []
+    for int in year:
+        for it in int:
+            fin_year.append(it)
+    print(fin_year)
 
-    if ls in columns:
-        print("data exists")
-    else:
-        print('continue')
 
-    return
+def budget_page(data):
+    """Gets data for the Budget worksheet."""
+    yr_mnth = data[0:2]
+    budget = input("Please set a budget: ")
+    yr_mnth.append(budget)
+    return yr_mnth
+
+
+def budget_page_update(data):
+    """Budget worksheet update"""
+    print("Updating Budget Page...")
+    budget_worksheet_update = SHEET.worksheet('BUDGET')
+    budget_worksheet_update.append_row(data)
+    print("Budget Update Successful")    
+    return data
 
 
 def main():
