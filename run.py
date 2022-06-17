@@ -17,24 +17,24 @@ SHEET = GSPREAD_CLIENT.open('expense_record')
 def get_expense_data():
     """This function gets the all the expenses data from the user."""
     exp_ls = []
-    year = year_validation('Enter Year (Ex. 2022):', 2020, 2030, 4)
+    year = year_validation('Enter Year (Ex. 2022):\n', 2020, 2030, 4)
     exp_ls.append(year)
-    month = int_validation('Enter Month (Ex. 1 - 12):', 1, 12)
+    month = int_validation('Enter Month (Ex. 1 - 12):\n', 1, 12)
     exp_ls.append(month)
     week_number = int_validation(
-        'Enter Week Number (Ex. 1 - 4):', 1, 4)
+        'Enter Week Number (Ex. 1 - 4):\n', 1, 4)
     exp_ls.append(week_number)
-    food_exp = int_validation('Enter FOOD EXPENSES:', 0, None)
+    food_exp = int_validation('Enter FOOD EXPENSES:\n', 0, None)
     exp_ls.append(food_exp)
-    car = int_validation('Enter CAR EXPENSES:', 0, None)
+    car = int_validation('Enter CAR EXPENSES:\n', 0, None)
     exp_ls.append(car)
-    chidlcare = int_validation('Enter CHILDCARE EXPENSES:', 0, None)
+    chidlcare = int_validation('Enter CHILDCARE EXPENSES:\n', 0, None)
     exp_ls.append(chidlcare)
-    utilities = int_validation('Enter UTILITIES EXPENSES:', 0, None)
+    utilities = int_validation('Enter UTILITIES EXPENSES:\n', 0, None)
     exp_ls.append(utilities)
-    mortgage = int_validation('Enter MORTGAGE EXPENSES:', 0, None)
+    mortgage = int_validation('Enter MORTGAGE EXPENSES:\n', 0, None)
     exp_ls.append(mortgage)
-    shopping = int_validation('Enter SHOPPING EXPENSES:', 0, None)
+    shopping = int_validation('Enter SHOPPING EXPENSES:\n', 0, None)
     exp_ls.append(shopping)
     return exp_ls 
 
