@@ -1,4 +1,4 @@
-"""Expense Tracker"""
+"""Expense Tracker App"""
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -182,9 +182,8 @@ def main():
     print("SELECT THE FUNCTION YOU WOULD LIKE TO DO TODAY:\n")
     operation_selections(
         "A : Set Monthly Budget and update it to Google Sheet.\n" +
-        "B : Enter expense data & update it to a google sheet.\n"
-        + "C : View past entries\n" + "D : Exit\n"
-        )
+        "B : Enter expense data & update it to a google sheet.\n" +
+        "C : View past entries\n" + "D : Exit\n")
     program_continue("Do you wish to continue. Answer (Y / N)- \n")
 
 
