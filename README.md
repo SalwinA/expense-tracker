@@ -1,31 +1,75 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# EXPENSE TRACKER APP 
 
-Welcome SalwinA,
+* Expense Tracker is an python terminal application running in the CI mock terminal with Heroku.
+* This facilates the user to setup monhtly budgets, store expenses data, view previous data entries.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+![Responsive Screen](/assets/responsiveScreens.jpg)
 
-## Reminders
+# HOW IT WORKS
+## Welcome Screen
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+* Welcome screen with selction options for the user to select which type os operation to perform.
+* User can type the character provided with the message to navigate for the operation type.
 
-## Creating the Heroku app
+![Welcome Screen](/assets/mainPage.jpg)
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Budget Window
 
-1. `heroku/python`
-2. `heroku/nodejs`
+* User can set the budget by entering Year, Month & Budget Amount.
+* It also updates the provided data to the dedicated Google sheet.
+* After the operation suucessfully executes there is a message for to continue or leave the program.
+* If answered Yes it takes you back to the Welcome screen to perform another operation.
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+![Budget Window](/assets/budgetWdw.jpg)
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+## Expenses Window
 
-Connect your GitHub repository and deploy as normal.
+* User can set the budget by entering Year, Month & Week Number and expenses catatgies like Food , Car , Childcare, Utilities, Mortage, Shopping.
+* It also updates the provided data to the dedicated Google sheet.
+* After the operation suucessfully executes there is a message for to continue or leave the program.
+* If answered Yes it takes you back to the Welcome screen to perform another operation.
 
-## Constraints
+![Expenses Window](/assets/expensesWdw1.jpg)
+![Expenses Window](/assets/expensesWdw2.jpg)
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+## View Previous Entries
 
------
-Happy coding!
+* User can also view all the data entries performed previous through the app dispalyed as lists.
+
+![View Previous Entries](/assets/viewEntries.jpg)
+
+## Exit Window
+
+* User can exit the app which is navigated by a message to press the 'Run Program' button in the app.
+
+![Exit Window](/assets/exit.jpg)
+
+# DATA MODEL
+
+* Its a relational flow data model which explains how the app is working.
+![DATA MODEL](/assets/dataModel.jpg)
+
+# TESTING
+## Validator Testing
+* Passed the code through a PEP8 linter and confirmed no problems.
+![PEP8](/assets/pep8Result.jpg)
+Inavlid inputs validation check done with no errors.
+
+# DEPLOYMENT
+* Project was deployed using Heroku.
+* New app craeted and named.
+* Set config vars with PORT & CREDS details.
+* Deplyment method connected to GitHub
+* Automatic Deplyment set for each push updates.
+*  Manually deplyment done for Heroku link.
+
+![App Link](https://expense-tracker-4321.herokuapp.com/)
+
+# Credits
+
+* CI deplyment terminal.
+* Love sandwiches project for coding ideas.
+* Stack Overflow for various syntax logics.
+
+
+
