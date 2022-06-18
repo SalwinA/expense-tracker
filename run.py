@@ -123,14 +123,15 @@ def operation_selections(msg):
             data.append(total)
             update_worksheet(data)
         elif selection == 'C':
-            print("C : View past entries")
+            print("C : View past entries\n")
             entries = SHEET.worksheet('EXPENSE').get_all_records()
             entry = []
             for i in entries:
                 entry.append(i)
-            print(entry)
+            for j in entry:
+                print(j)
         elif selection == 'D':
-            print("D : Exit")
+            print("Press 'Run Program' button to Refresh the page.")
             exit()
         else:
             raise ValueError("Invalid selection..")
@@ -194,14 +195,14 @@ def expense_budget_difference():
 
 def main():
     """This will run all the functions"""
-    print("Welcome to ＥＸＰＥＮＳＥ ＴＲＡＣＫＥＲ!!!\n")
-    print("Which operation would you like to do today:\n")
+    print("### 𝚆𝙴𝙻𝙲𝙾𝙼𝙴 𝚃𝙾 𝙴𝚇𝙿𝙴𝙽𝚂𝙴 𝚃𝚁𝙰𝙲𝙺𝙴𝚁 𝙰𝙿𝙿 !!! ###\n")
+    print("SELECT THE FUNCTION YOU WOULD LIKE TO DO TODAY:\n")
     operation_selections(
         "A : Set Monthly Budget and update it to Google Sheet.\n" +
         "B : Enter expense data & update it to a google sheet.\n"
         + "C : View past entries\n" + "D : Exit\n"
         )
-    program_continue("Do you wish to continue. Answer (Y / N)- ")
+    program_continue("Do you wish to continue. Answer (Y / N)- \n")
 
 
 main()
