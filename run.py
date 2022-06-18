@@ -194,13 +194,7 @@ def expense_budget_difference():
 
 def main():
     """This will run all the functions"""
-    print("""
-█████████████████████████████████████████████████████████████████████████████████████████
-█▄─▄▄─█▄─▀─▄█▄─▄▄─█▄─▄▄─█▄─▀█▄─▄█─▄▄▄▄█▄─▄▄─███─▄─▄─█▄─▄▄▀██▀▄─██─▄▄▄─█▄─█─▄█▄─▄▄─█▄─▄▄▀█
-██─▄█▀██▀─▀███─▄▄▄██─▄█▀██─█▄▀─██▄▄▄▄─██─▄█▀█████─████─▄─▄██─▀─██─███▀██─▄▀███─▄█▀██─▄─▄█
-▀▄▄▄▄▄▀▄▄█▄▄▀▄▄▄▀▀▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▄▄▄▄▄▀▄▄▄▄▄▀▀▀▀▄▄▄▀▀▄▄▀▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀▄▄▄▄▄▀▄▄▀▄▄▀
-    """)
-    print("Welcome to your Expense Tracker\n")
+    print("Welcome to ＥＸＰＥＮＳＥ ＴＲＡＣＫＥＲ!!!\n")
     print("Which operation would you like to do today:\n")
     operation_selections(
         "A : Set Monthly Budget and update it to Google Sheet.\n" +
