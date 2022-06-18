@@ -100,6 +100,7 @@ def program_continue(msg):
             main()
         elif answer == 'N':
             exit()
+            print("Press 'Run Program' button to Refresh the page.")
         else:
             raise ValueError("Invalid selection..")
     except ValueError as err_msg:
@@ -118,7 +119,6 @@ def operation_selections(msg):
         elif selection == 'B':
             print("Please Enter the details of expenses & update it.")
             data = get_expense_data()
-            get_data()
             total = total_calculation(data)
             data.append(total)
             update_worksheet(data)
@@ -139,23 +139,6 @@ def operation_selections(msg):
         print(f"{err_msg} Please try again")
         operation_selections(msg)
         return
-
-
-def get_data():
-    """Get Data"""
-    log = SHEET.worksheet('EXPENSE')
-    year = []
-    # month = []
-    # week =[]
-    for i in range(1, 4):
-        val1 = log.col_values(i)
-        year.append(val1[1:])
-    # print(year)
-    fin_year = []
-    for itr in year:
-        for itn in itr:
-            fin_year.append(itn)
-    # print(fin_year)
 
 
 def budget_page():
